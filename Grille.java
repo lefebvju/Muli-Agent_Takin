@@ -85,9 +85,17 @@ public class Grille {
         String retour="";
         DecimalFormat formatter = new DecimalFormat("00");
         for(int row=0;row<sizeY;row++) {
+            retour+="| ";
             for( int col=0;col<sizeX;col++) {
                 if(tabCurrent[row][col]!=-1)
                     retour+=formatter.format(tabCurrent[row][col])+(" | ");
+                else
+                    retour+=("   | ");
+            }
+            retour+="            -->            | ";
+            for( int col=0;col<sizeX;col++) {
+                if(tabTarget[row][col]!=-1)
+                    retour+=formatter.format(tabTarget[row][col])+(" | ");
                 else
                     retour+=("   | ");
             }
