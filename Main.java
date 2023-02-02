@@ -26,8 +26,12 @@ public class Main {
         Agent a5 = new Agent(new Position(3,4), new Position(4,4), g);
 
         a1.start();
+        a2.start();
+        a3.start();
+        a4.start();
+        a5.start();
 
 
-
+        System.out.println("Hello world !");
     }
 }

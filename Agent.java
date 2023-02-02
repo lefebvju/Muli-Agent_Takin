@@ -27,7 +27,7 @@ public class Agent extends Thread {
 
     @Override
     public void run() {
-
+        System.out.println("Bonjour ! ");
     }
 
 
