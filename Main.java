@@ -31,7 +31,7 @@ public class Main {
         a4.start();
         a5.start();
 
-
+        System.out.println(g.toString());
         System.out.println("Hello world !");
     }
 }

@@ -1,3 +1,5 @@
+import java.text.DecimalFormat;
+
 public class Grille {
     private int sizeX, sizeY;
     private int [][] tabCurrent;
@@ -76,5 +78,21 @@ public class Grille {
             }
             finished = true;
         }
+    }
+
+    @Override
+    public String toString() {
+        String retour="";
+        DecimalFormat formatter = new DecimalFormat("00");
+        for(int row=0;row<sizeY;row++) {
+            for( int col=0;col<sizeX;col++) {
+                if(tabCurrent[row][col]!=-1)
+                    retour+=formatter.format(tabCurrent[row][col])+(" | ");
+                else
+                    retour+=("   | ");
+            }
+            retour+="\n";
+        }
+        return retour;
     }
 }
