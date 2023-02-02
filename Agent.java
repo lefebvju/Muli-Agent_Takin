@@ -53,6 +53,113 @@ public class Agent extends Thread {
         return d;
     }
 
+    private void move() {
+        Direction d = getDir();
+        if(d==null)
+            return;
+        Position p;
+        Position p2;
+        try {
+            p = (Position) current.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
+        switch (d){
+            case NORTH:
+                p.up();
+                if(grille.isFree(p)) {
+                    grille.move(current, p);
+                    moveUp();
+                }
+                break;
+            case SOUTH:
+                p.down();
+                if(grille.isFree(p)) {
+                    grille.move(current, p);
+                    moveDown();
+                }
+
+                break;
+            case EAST:
+                p.right();
+                if(grille.isFree(p)) {
+                    grille.move(current, p);
+                    moveRight();
+                }
+                break;
+            case WEST:
+                p.left();
+                if(grille.isFree(p)) {
+                    grille.move(current, p);
+                    moveLeft();
+                }
+                break;
+            case NE:
+                try {
+                    p2 = (Position) p.clone();
+                } catch (CloneNotSupportedException e) {
+                    throw new RuntimeException(e);
+                }
+                p.up();
+                p2.right();
+                if(grille.isFree(p)) {
+                    grille.move(current, p);
+                    moveUp();
+                }else if(grille.isFree(p2)) {
+                    grille.move(current, p2);
+                    moveRight();
+                }
+                break;
+            case NW:
+                try {
+                    p2 = (Position) p.clone();
+                } catch (CloneNotSupportedException e) {
+                    throw new RuntimeException(e);
+                }
+                p.up();
+                p2.left();
+                if(grille.isFree(p)) {
+                    grille.move(current, p);
+                    moveUp();
+                }else if(grille.isFree(p2)) {
+                    grille.move(current, p2);
+                    moveLeft();
+                }
+                break;
+            case SE:
+                try {
+                    p2 = (Position) p.clone();
+                } catch (CloneNotSupportedException e) {
+                    throw new RuntimeException(e);
+                }
+                p.down();
+                p2.right();
+                if(grille.isFree(p)) {
+                    grille.move(current, p);
+                    moveDown();
+                }else if(grille.isFree(p2)) {
+                    grille.move(current, p2);
+                    moveRight();
+                }
+                break;
+            case SW:
+                try {
+                    p2 = (Position) p.clone();
+                } catch (CloneNotSupportedException e) {
+                    throw new RuntimeException(e);
+                }
+                p.down();
+                p2.left();
+                if(grille.isFree(p)) {
+                    grille.move(current, p);
+                    moveDown();
+                }else if(grille.isFree(p2)) {
+                    grille.move(current, p2);
+                    moveLeft();
+                }
+                break;
+        }
+    }
 
 
     @Override
