@@ -18,21 +18,24 @@ public class Grille {
             }
         }
     }
-
     public boolean placeAgentCurrent(Position p, int numAgent) {
-        if(isFree(p)) {
-            tabCurrent[p.X()][p.Y()] = numAgent;
-            return true;
+        synchronized (tabCurrent) {
+            if (isFree(p)) {
+                tabCurrent[p.X()][p.Y()] = numAgent;
+                return true;
+            }
+            return false;
         }
-        return false;
     }
 
     public boolean placeAgentTarget(Position p, int numAgent) {
-        if(tabTarget[p.X()][p.Y()] == -1) {
-            tabTarget[p.X()][p.Y()] = numAgent;
-            return true;
+        synchronized (tabCurrent) {
+            if (tabTarget[p.X()][p.Y()] == -1) {
+                tabTarget[p.X()][p.Y()] = numAgent;
+                return true;
+            }
+            return false;
         }
-        return false;
     }
 
     public int getSizeX(){
@@ -49,23 +52,29 @@ public class Grille {
 
 
     public void move(Position p1, Position p2) {
-        tabCurrent[p2.X()][p2.Y()] = tabCurrent[p1.X()][p1.Y()];
-        tabCurrent[p1.X()][p1.Y()] = -1;
+        synchronized (tabCurrent) {
+            tabCurrent[p2.X()][p2.Y()] = tabCurrent[p1.X()][p1.Y()];
+            tabCurrent[p1.X()][p1.Y()] = -1;
+        }
     }
 
     public boolean isFree(Position p) {
-        return tabCurrent[p.X()][p.Y()] == -1;
+        synchronized (tabCurrent) {
+            return tabCurrent[p.X()][p.Y()] == -1;
+        }
     }
 
     private void verif() {
-        for (int i = 0; i < sizeX; i++) {
-            for (int j = 0; j < sizeY; j++) {
-                if(tabCurrent[i][j] != tabTarget[i][j]) {
-                    finished = false;
-                    return;
+        synchronized (tabCurrent) {
+            for (int i = 0; i < sizeX; i++) {
+                for (int j = 0; j < sizeY; j++) {
+                    if (tabCurrent[i][j] != tabTarget[i][j]) {
+                        finished = false;
+                        return;
+                    }
                 }
             }
+            finished = true;
         }
-        finished = true;
     }
 }
