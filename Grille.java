@@ -10,6 +10,29 @@ public class Grille {
         tabCurrent = new int[x][y];
         tabTarget = new int[x][y];
         finished = false;
+
+        for (int i = 0; i < sizeX; i++) {
+            for (int j = 0; j < sizeY; j++) {
+                tabCurrent[i][j] = -1; 
+                tabTarget[i][j] = -1;
+            }
+        }
+    }
+
+    public boolean placeAgentCurrent(Position p, int numAgent) {
+        if(isFree(p)) {
+            tabCurrent[p.X()][p.Y()] = numAgent;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean placeAgentTarget(Position p, int numAgent) {
+        if(tabTarget[p.X()][p.Y()] == -1) {
+            tabTarget[p.X()][p.Y()] = numAgent;
+            return true;
+        }
+        return false;
     }
 
     public int getSizeX(){

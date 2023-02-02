@@ -3,21 +3,31 @@ public class Agent extends Thread {
     private Position target;
     private Grille grille;
 
+    public Agent(Position c, Position t, Grille g) {
+        current = c;
+        target = t;
+        grille = g;
+    }
 
     private void moveUp(){
-        if (current.Y() > 1) current.up();
+        if (current.Y() > 0) current.up();
     }
 
     private void moveDown(){
-        if (current.Y() < grille.getSizeY()) current.down();
+        if (current.Y() < grille.getSizeY() - 1) current.down();
     }
 
     private void moveLeft(){
-        if (current.X() > 1) current.left();
+        if (current.X() > 0) current.left();
     }
 
     private void moveRight(){
-        if (current.X() < grille.getSizeX()) current.right();
+        if (current.X() < grille.getSizeX() - 1) current.right();
+    }
+
+    @Override
+    public void run() {
+
     }
 
 
