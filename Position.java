@@ -1,6 +1,6 @@
 import static java.lang.Math.abs;
 
-public class Position {
+public class Position implements Cloneable{
     private int x, y;
 
     public Position(int x, int y) {
@@ -43,5 +43,10 @@ public class Position {
 
     public int distance(int _x, int _y){
         return (abs(x-_x)+abs(y-_y));
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }
