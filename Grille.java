@@ -4,10 +4,6 @@ public class Grille {
     private int [][] tabTarget;
     private boolean finished;
 
-    public boolean isFinished() {
-        return finished;
-    }
-
     Grille(final int x, final int y) {
         sizeX = x;
         sizeY = y;
@@ -24,8 +20,29 @@ public class Grille {
         return sizeY;
     }
 
+    public boolean isFinished() {
+        return finished;
+    }
+
+
     public void move(Position p1, Position p2) {
         tabCurrent[p2.X()][p2.Y()] = tabCurrent[p1.X()][p1.Y()];
         tabCurrent[p1.X()][p1.Y()] = -1;
+    }
+
+    public boolean isFree(Position p) {
+        return tabCurrent[p.X()][p.Y()] == -1;
+    }
+
+    private void verif() {
+        for (int i = 0; i < sizeX; i++) {
+            for (int j = 0; j < sizeY; j++) {
+                if(tabCurrent[i][j] != tabTarget[i][j]) {
+                    finished = false;
+                    return;
+                }
+            }
+        }
+        finished = true;
     }
 }
