@@ -25,7 +25,7 @@ public class Agent extends Thread {
         if (current.X() < grille.getSizeX() - 1) current.right();
     }
 
-    public Direction getDir(){
+    private Direction getDir(){
         Direction d=null;
         if (current.Y() < target.Y()){
             d=Direction.SOUTH;
@@ -164,7 +164,10 @@ public class Agent extends Thread {
 
     @Override
     public void run() {
-        System.out.println("Bonjour ! ");
+        while(!grille.isFinished()) {
+            move();
+            System.out.println(grille.toString());
+        }
     }
 
 
