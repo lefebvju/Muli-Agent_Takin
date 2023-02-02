@@ -59,6 +59,7 @@ public class Grille {
         synchronized (tabCurrent) {
             tabCurrent[p2.X()][p2.Y()] = tabCurrent[p1.X()][p1.Y()];
             tabCurrent[p1.X()][p1.Y()] = -1;
+            verif();
         }
     }
 
@@ -69,7 +70,6 @@ public class Grille {
     }
 
     private void verif() {
-        synchronized (tabCurrent) {
             for (int i = 0; i < sizeX; i++) {
                 for (int j = 0; j < sizeY; j++) {
                     if (tabCurrent[i][j] != tabTarget[i][j]) {
@@ -79,7 +79,6 @@ public class Grille {
                 }
             }
             finished = true;
-        }
     }
 
     @Override
