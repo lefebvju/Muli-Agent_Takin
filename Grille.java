@@ -1,9 +1,10 @@
 import java.text.DecimalFormat;
 
 public class Grille {
-    private int sizeX, sizeY;
-    private int [][] tabCurrent;
-    private int [][] tabTarget;
+    private final int sizeX;
+    private final int sizeY;
+    private final int[][] tabCurrent;
+    private final int[][] tabTarget;
     private boolean finished;
 
     Grille(final int x, final int y) {
@@ -15,11 +16,12 @@ public class Grille {
 
         for (int i = 0; i < sizeX; i++) {
             for (int j = 0; j < sizeY; j++) {
-                tabCurrent[i][j] = -1; 
+                tabCurrent[i][j] = -1;
                 tabTarget[i][j] = -1;
             }
         }
     }
+
     public boolean placeAgentCurrent(Position p, int numAgent) {
         synchronized (tabCurrent) {
             if (isFree(p)) {
@@ -40,7 +42,7 @@ public class Grille {
         }
     }
 
-    public int getSizeX(){
+    public int getSizeX() {
         return sizeX;
     }
 
@@ -82,24 +84,27 @@ public class Grille {
 
     @Override
     public String toString() {
-        String retour="";
+        String retour = "";
         DecimalFormat formatter = new DecimalFormat("00");
-        for(int row=0;row<sizeY;row++) {
-            retour+="| ";
-            for( int col=0;col<sizeX;col++) {
-                if(tabCurrent[row][col]!=-1)
-                    retour+=formatter.format(tabCurrent[row][col])+(" | ");
-                else
-                    retour+=("   | ");
+        for (int col = 0; col < sizeX; col++) {
+            retour += "| ";
+            for (int row = 0; row < sizeY; row++) {
+                if (tabCurrent[col][row] != -1) {
+                    retour += formatter.format(tabCurrent[col][row]) + (" | ");
+                } else {
+                    retour += ("   | ");
+                }
             }
-            retour+="            -->            | ";
-            for( int col=0;col<sizeX;col++) {
-                if(tabTarget[row][col]!=-1)
-                    retour+=formatter.format(tabTarget[row][col])+(" | ");
-                else
-                    retour+=("   | ");
+            retour += "            -->            | ";
+
+            for (int row = 0; row < sizeY; row++) {
+                if (tabTarget[col][row] != -1) {
+                    retour += formatter.format(tabTarget[col][row]) + (" | ");
+                } else {
+                    retour += ("   | ");
+                }
             }
-            retour+="\n";
+            retour += "\n";
         }
         return retour;
     }
