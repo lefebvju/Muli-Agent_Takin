@@ -25,6 +25,36 @@ public class Agent extends Thread {
         if (current.X() < grille.getSizeX() - 1) current.right();
     }
 
+    public Direction getDir(){
+        Direction d=null;
+        if (current.Y() < target.Y()){
+            d=Direction.SOUTH;
+        } else if (current.Y() > target.Y()) {
+            d=Direction.NORTH;
+        }
+
+        if(current.X()< target.X()){
+            if (d == Direction.NORTH){
+                d=Direction.NE;
+            } else if (d == Direction.SOUTH){
+                d=Direction.SE;
+            }else{
+                d=Direction.EAST;
+            }
+        } else if (current.X() > target.X()) {
+            if (d == Direction.NORTH){
+                d=Direction.NW;
+            } else if (d == Direction.SOUTH){
+                d=Direction.SW;
+            }else{
+                d=Direction.WEST;
+            }
+        }
+        return d;
+    }
+
+
+
     @Override
     public void run() {
         System.out.println("Bonjour ! ");
