@@ -22,20 +22,36 @@ public class Agent extends Thread {
         b.initAgent(id);
     }
 
-    private void moveUp(){
-        if (current.Y() > 0) current.up();
+    private boolean moveUp(){
+        if (current.Y() > 0){
+            current.up();
+            return true;
+        } 
+        return false;
     }
 
-    private void moveDown(){
-        if (current.Y() < grille.getSizeY() - 1) current.down();
+    private boolean moveDown(){
+        if (current.Y() < grille.getSizeY() - 1) {
+            current.down();
+            return true;
+        }
+        return false;
     }
 
-    private void moveLeft(){
-        if (current.X() > 0) current.left();
+    private boolean moveLeft(){
+        if (current.X() > 0){
+            current.left();
+            return true;
+        }
+        return false;
     }
 
-    private void moveRight(){
-        if (current.X() < grille.getSizeX() - 1) current.right();
+    private boolean moveRight(){
+        if (current.X() < grille.getSizeX() - 1){
+            current.right();
+            return true;
+        }
+        return false;
     }
 
     private Direction getDir(){
@@ -79,9 +95,8 @@ public class Agent extends Thread {
         switch (d){
             case NORTH:
                 p.up();
-                if(grille.isFree(p)) {
+                if(grille.isFree(p) && moveUp()) {
                     grille.move(current, p);
-                    moveUp();
                     return true;
                 }
                 else {
@@ -90,9 +105,8 @@ public class Agent extends Thread {
                 break;
             case SOUTH:
                 p.down();
-                if(grille.isFree(p)) {
+                if(grille.isFree(p) && moveDown()) {
                     grille.move(current, p);
-                    moveDown();
                     return true;
                 }
                 else {
@@ -102,9 +116,8 @@ public class Agent extends Thread {
                 break;
             case EAST:
                 p.right();
-                if(grille.isFree(p)) {
+                if(grille.isFree(p) && moveRight()) {
                     grille.move(current, p);
-                    moveRight();
                     return true;
                 }
                 else {
@@ -113,9 +126,8 @@ public class Agent extends Thread {
                 break;
             case WEST:
                 p.left();
-                if(grille.isFree(p)) {
+                if(grille.isFree(p) && moveLeft()) {
                     grille.move(current, p);
-                    moveLeft();
                     return true;
                 }
                 else {
@@ -130,13 +142,11 @@ public class Agent extends Thread {
                 }
                 p.up();
                 p2.right();
-                if(grille.isFree(p)) {
+                if(grille.isFree(p) && moveUp()) {
                     grille.move(current, p);
-                    moveUp();
                     return true;
-                }else if(grille.isFree(p2)) {
+                }else if(grille.isFree(p2) && moveRight()) {
                     grille.move(current, p2);
-                    moveRight();
                     return true;
                 }
                 break;
@@ -148,13 +158,11 @@ public class Agent extends Thread {
                 }
                 p.up();
                 p2.left();
-                if(grille.isFree(p)) {
+                if(grille.isFree(p) && moveUp()) {
                     grille.move(current, p);
-                    moveUp();
                     return true;
-                }else if(grille.isFree(p2)) {
+                }else if(grille.isFree(p2) && moveLeft()) {
                     grille.move(current, p2);
-                    moveLeft();
                     return true;
                 }
                 break;
@@ -166,13 +174,11 @@ public class Agent extends Thread {
                 }
                 p.down();
                 p2.right();
-                if(grille.isFree(p)) {
+                if(grille.isFree(p) && moveDown()) {
                     grille.move(current, p);
-                    moveDown();
                     return true;
-                }else if(grille.isFree(p2)) {
+                }else if(grille.isFree(p2) && moveRight()) {
                     grille.move(current, p2);
-                    moveRight();
                     return true;
                 }
                 break;
@@ -184,13 +190,11 @@ public class Agent extends Thread {
                 }
                 p.down();
                 p2.left();
-                if(grille.isFree(p)) {
+                if(grille.isFree(p) && moveDown()) {
                     grille.move(current, p);
-                    moveDown();
                     return true;
-                }else if(grille.isFree(p2)) {
+                }else if(grille.isFree(p2) && moveLeft()) {
                     grille.move(current, p2);
-                    moveLeft();
                     return true;
                 }
                 break;
@@ -205,13 +209,16 @@ public class Agent extends Thread {
             Direction d = getDir();
             Position postmp;
 
-            Message m = boite.getFirstMessage(id);
-            if(m!=null && m.destinationPosition.equals(current)) {
-                Direction[] directions = Direction.values();
-                Direction dtmp = directions[PRNG.nextInt(directions.length)];
+            Message m = boite.getFirstMessage(id);            
+            if(m!=null) {
+                boite.removeFirstMessage(id);
+                if (m.destinationPosition.equals(current)) {
+                    Direction[] directions = Direction.values();
+                    Direction dtmp = directions[PRNG.nextInt(directions.length)];
 
-                move(dtmp);
-                System.out.println(grille.toString());
+                    move(dtmp);
+                    System.out.println(grille.toString());
+                }
             }
             
             move(d);
