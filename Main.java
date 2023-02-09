@@ -1,6 +1,6 @@
 public class Main {
 
-    final static int NBAGENT = 22;
+    final static int NBAGENT = 20;
 
     public static void main(String[] args) {
 

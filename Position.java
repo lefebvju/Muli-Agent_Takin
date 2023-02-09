@@ -37,6 +37,21 @@ public class Position {
         x++;
     }
 
+    public void deplacement(Direction d) {
+        if(d==Direction.NORTH) {
+            up();
+        }else if (d==Direction.SOUTH) {
+            down();
+        }else if (d==Direction.WEST) {
+            left();
+        } else if(d==Direction.EAST) {
+            right();
+        } else {
+            System.err.println("Direction impossible, fonction deplacement(), ligne 50");
+            System.exit(0);
+        }
+    }
+
     public Boolean equals(Position p){
         return (x==p.x && y==p.y);
     }

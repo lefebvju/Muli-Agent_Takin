@@ -62,6 +62,59 @@ public class Agent extends Thread {
         return false;
     }
 
+    private boolean moveNSWE(Direction d) {
+        if(d==Direction.NORTH) {
+            return moveUp();
+        }else if (d==Direction.SOUTH) {
+            return moveDown();
+        }else if (d==Direction.WEST) {
+            return moveLeft();
+        } else if(d==Direction.EAST) {
+            return moveRight();
+        } else {
+            System.err.println("Direction impossible, fonction moveNSWE()");
+            System.exit(0);
+        }
+        return false;
+    }
+
+    /**
+     * 
+     * @param p1 position temporaire 1
+     * @param p2 position temporaire 2
+     * @param dir1 direction temporaire 1
+     * @param dir2 direction temporaire 2
+     * @param d direction globale (NE,SE,SW,NW)
+     * @return
+     */
+    private boolean choiceBetween2move(Position p1, Position p2, Direction dir1, Direction dir2, Direction d) {
+        int choixDep = PRNG.nextInt(2);
+        Direction d1;
+        Direction d2;
+
+        if(choixDep == 0) {
+            d1 = dir1;
+            d2 = dir2;
+        } else {
+            d1 = dir2;
+            d2 = dir1;
+        }
+        p1.deplacement(d1);
+        p2.deplacement(d2);
+        if (grille.isFree(p1)) {
+            return moveNSWE(d1);
+        } else if (grille.isFree(p2)) {
+            return moveNSWE(d2);
+        } else {
+            if(choixDep==0 &&  grille.isInTab(p1)){
+                boite.addMessage(grille.getId(p1), new MessageDemande(id, current, d, p1));
+            } else if(grille.isInTab(p2)){
+                boite.addMessage(grille.getId(p2), new MessageDemande(id, current, d, p2));
+            }
+        }
+        return false;
+    }
+
     private Direction getDir(){
         Direction d=null;
         if (current.Y() < target.Y()){
@@ -90,13 +143,13 @@ public class Agent extends Thread {
         return d;
     }
 
-    private boolean move(Direction d) {
+    private boolean gestion_move(Direction d) {
         synchronized (grille) {
             if (d == null)
                 return false;
             Position p;
             Position p2;
-            p = current.clone();
+            p = current.clone();         
 
             switch (d) {
                 case NORTH:
@@ -142,67 +195,19 @@ public class Agent extends Thread {
                     break;
                 case NE:
                     p2 = p.clone();
-                    p.up();
-                    p2.right();
-                    if (grille.isFree(p)) {
-                        return moveUp();
-                    } else if (grille.isFree(p2)) {
-                        return moveRight();
-                    } else {
-                        if(PRNG.nextInt(2)==0 &&  grille.isInTab(p)){
-                            boite.addMessage(grille.getId(p), new MessageDemande(id, current, d, p));
-                        } else if(grille.isInTab(p2)){
-                            boite.addMessage(grille.getId(p2), new MessageDemande(id, current, d, p2));
-                        }
-                    }
+                    choiceBetween2move(p,p2,Direction.NORTH,Direction.EAST,Direction.NE);
                     break;
                 case NW:
                     p2 = p.clone();
-                    p.up();
-                    p2.left();
-                    if (grille.isFree(p)) {
-                        return moveUp();
-                    } else if (grille.isFree(p2)) {
-                        return moveLeft();
-                    }else {
-                        if(PRNG.nextInt(2)==0 &&  grille.isInTab(p)){
-                            boite.addMessage(grille.getId(p), new MessageDemande(id, current, d, p));
-                        } else if(grille.isInTab(p2)){
-                            boite.addMessage(grille.getId(p2), new MessageDemande(id, current, d, p2));
-                        }
-                    }
+                    choiceBetween2move(p,p2,Direction.NORTH,Direction.WEST,Direction.NW);
                     break;
                 case SE:
                     p2 = p.clone();
-                    p.down();
-                    p2.right();
-                    if (grille.isFree(p)) {
-                        return moveDown();
-                    } else if (grille.isFree(p2)) {
-                        return moveRight();
-                    }else {
-                        if(PRNG.nextInt(2)==0 &&  grille.isInTab(p)){
-                            boite.addMessage(grille.getId(p), new MessageDemande(id, current, d, p));
-                        } else if(grille.isInTab(p2)){
-                            boite.addMessage(grille.getId(p2), new MessageDemande(id, current, d, p2));
-                        }
-                    }
+                    choiceBetween2move(p,p2,Direction.SOUTH,Direction.EAST,Direction.SE);
                     break;
                 case SW:
                     p2 = p.clone();
-                    p.down();
-                    p2.left();
-                    if (grille.isFree(p)) {
-                        return moveDown();
-                    } else if (grille.isFree(p2)) {
-                        return moveLeft();
-                    }else {
-                        if(PRNG.nextInt(2)==0 &&  grille.isInTab(p)){
-                            boite.addMessage(grille.getId(p), new MessageDemande(id, current, d, p));
-                        } else if(grille.isInTab(p2)){
-                            boite.addMessage(grille.getId(p2), new MessageDemande(id, current, d, p2));
-                        }
-                    }
+                    choiceBetween2move(p,p2,Direction.SOUTH,Direction.WEST,Direction.SW);
                     break;
             }
             return false;
@@ -223,12 +228,12 @@ public class Agent extends Thread {
                     Direction[] directions = Direction.values();
                     Direction dtmp = directions[PRNG.nextInt(directions.length)];
 
-                    move(dtmp);
+                    gestion_move(dtmp);
                     System.out.println(grille.toString());
                 }
             }
             
-            move(d);
+            gestion_move(d);
             System.out.println(grille.toString());
         }
         System.out.println("end of thread "+id);
