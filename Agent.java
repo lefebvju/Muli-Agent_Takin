@@ -195,20 +195,16 @@ public class Agent extends Thread {
                     break;
                 case NE:
                     p2 = p.clone();
-                    choiceBetween2move(p,p2,Direction.NORTH,Direction.EAST,Direction.NE);
-                    break;
+                    return choiceBetween2move(p,p2,Direction.NORTH,Direction.EAST,Direction.NE);
                 case NW:
                     p2 = p.clone();
-                    choiceBetween2move(p,p2,Direction.NORTH,Direction.WEST,Direction.NW);
-                    break;
+                    return choiceBetween2move(p,p2,Direction.NORTH,Direction.WEST,Direction.NW);
                 case SE:
                     p2 = p.clone();
-                    choiceBetween2move(p,p2,Direction.SOUTH,Direction.EAST,Direction.SE);
-                    break;
+                    return choiceBetween2move(p,p2,Direction.SOUTH,Direction.EAST,Direction.SE);
                 case SW:
                     p2 = p.clone();
-                    choiceBetween2move(p,p2,Direction.SOUTH,Direction.WEST,Direction.SW);
-                    break;
+                    return choiceBetween2move(p,p2,Direction.SOUTH,Direction.WEST,Direction.SW);
             }
             return false;
         }
