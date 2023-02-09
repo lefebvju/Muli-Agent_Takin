@@ -1,9 +1,14 @@
+import java.util.Random;
+
 public class Agent extends Thread {
     private Integer id;
     private Position current;
     private Position target;
     private Grille grille;
     private Messagerie boite;
+
+    private static final Random PRNG = new Random();
+
 
     public Agent(Position c, Position t, Grille g, Integer _id, Messagerie b) {
         id = _id;
@@ -61,10 +66,9 @@ public class Agent extends Thread {
         return d;
     }
 
-    private void move() {
-        Direction d = getDir();
+    private boolean move(Direction d) {        
         if(d==null)
-            return;
+            return false;
         Position p;
         Position p2;
         try {
@@ -78,6 +82,7 @@ public class Agent extends Thread {
                 if(grille.isFree(p)) {
                     grille.move(current, p);
                     moveUp();
+                    return true;
                 }
                 break;
             case SOUTH:
@@ -85,6 +90,7 @@ public class Agent extends Thread {
                 if(grille.isFree(p)) {
                     grille.move(current, p);
                     moveDown();
+                    return true;
                 }
 
                 break;
@@ -93,6 +99,7 @@ public class Agent extends Thread {
                 if(grille.isFree(p)) {
                     grille.move(current, p);
                     moveRight();
+                    return true;
                 }
                 break;
             case WEST:
@@ -100,6 +107,7 @@ public class Agent extends Thread {
                 if(grille.isFree(p)) {
                     grille.move(current, p);
                     moveLeft();
+                    return true;
                 }
                 break;
             case NE:
@@ -113,9 +121,11 @@ public class Agent extends Thread {
                 if(grille.isFree(p)) {
                     grille.move(current, p);
                     moveUp();
+                    return true;
                 }else if(grille.isFree(p2)) {
                     grille.move(current, p2);
                     moveRight();
+                    return true;
                 }
                 break;
             case NW:
@@ -129,9 +139,11 @@ public class Agent extends Thread {
                 if(grille.isFree(p)) {
                     grille.move(current, p);
                     moveUp();
+                    return true;
                 }else if(grille.isFree(p2)) {
                     grille.move(current, p2);
                     moveLeft();
+                    return true;
                 }
                 break;
             case SE:
@@ -145,9 +157,11 @@ public class Agent extends Thread {
                 if(grille.isFree(p)) {
                     grille.move(current, p);
                     moveDown();
+                    return true;
                 }else if(grille.isFree(p2)) {
                     grille.move(current, p2);
                     moveRight();
+                    return true;
                 }
                 break;
             case SW:
@@ -161,19 +175,33 @@ public class Agent extends Thread {
                 if(grille.isFree(p)) {
                     grille.move(current, p);
                     moveDown();
+                    return true;
                 }else if(grille.isFree(p2)) {
                     grille.move(current, p2);
                     moveLeft();
+                    return true;
                 }
                 break;
         }
+        return false;
     }
 
 
     @Override
     public void run() {
         while(!grille.isFinished()) {
-            move();
+            Direction d = getDir();
+            Position postmp;
+
+            Message m = boite.getFirstMessage(id);
+            if(m!=null && m.destinationPosition.equals(current)) {
+                Direction[] directions = Direction.values();
+                Direction dtmp = directions[PRNG.nextInt(directions.length)];
+
+                move(dtmp);
+            }
+            
+            move(d);
             System.out.println(grille.toString());
         }
     }

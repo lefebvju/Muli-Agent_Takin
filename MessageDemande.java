@@ -2,10 +2,10 @@ public class MessageDemande extends Message{
     private Position sourcePosition;
     private Direction sourceDirection;
 
-    public MessageDemande(Integer src, Integer dest, Position pos, Direction dir) {
+    public MessageDemande(Integer src, Position srcPos, Direction dir, Position dest) {
         source = src;
-        destination=dest;
-        sourcePosition=pos;
+        destinationPosition = dest;
+        sourcePosition=srcPos;
         sourceDirection=dir;
     }
 }

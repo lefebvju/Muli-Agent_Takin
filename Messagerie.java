@@ -15,6 +15,9 @@ public class Messagerie {
 
     public Message getFirstMessage(Integer i){
         synchronized (boite.get(i)) {
+            if(boite.get(i).size() == 0) {
+                return null;
+            }
             return boite.get(i).getFirst();
         }
     }
