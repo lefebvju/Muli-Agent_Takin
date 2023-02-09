@@ -83,28 +83,30 @@ public class Grille {
 
     @Override
     public String toString() {
-        String retour = "";
-        DecimalFormat formatter = new DecimalFormat("00");
-        for (int col = 0; col < sizeX; col++) {
-            retour += "| ";
-            for (int row = 0; row < sizeY; row++) {
-                if (tabCurrent[col][row] != -1) {
-                    retour += formatter.format(tabCurrent[col][row]) + (" | ");
-                } else {
-                    retour += ("   | ");
+        synchronized (tabCurrent) {
+            String retour = "";
+            DecimalFormat formatter = new DecimalFormat("00");
+            for (int col = 0; col < sizeX; col++) {
+                retour += "| ";
+                for (int row = 0; row < sizeY; row++) {
+                    if (tabCurrent[col][row] != -1) {
+                        retour += formatter.format(tabCurrent[col][row]) + (" | ");
+                    } else {
+                        retour += ("   | ");
+                    }
                 }
-            }
-            retour += "            -->            | ";
+                retour += "            -->            | ";
 
-            for (int row = 0; row < sizeY; row++) {
-                if (tabTarget[col][row] != -1) {
-                    retour += formatter.format(tabTarget[col][row]) + (" | ");
-                } else {
-                    retour += ("   | ");
+                for (int row = 0; row < sizeY; row++) {
+                    if (tabTarget[col][row] != -1) {
+                        retour += formatter.format(tabTarget[col][row]) + (" | ");
+                    } else {
+                        retour += ("   | ");
+                    }
                 }
+                retour += "\n";
             }
-            retour += "\n";
+            return retour;
         }
-        return retour;
     }
 }
