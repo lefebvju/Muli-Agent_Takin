@@ -90,93 +90,99 @@ public class Agent extends Thread {
         return d;
     }
 
-    private boolean move(Direction d) {        
-        if(d==null)
-            return false;
-        Position p;
-        Position p2;
-        p = current.clone();
-        
-        switch (d){
-            case NORTH:
-                p.up();
-                if(grille.isFree(p)) {
-                    return moveUp();
-                }
-                else {
-                    boite.addMessage(grille.getId(p), new MessageDemande(id, current, d, p));
-                }
-                break;
-            case SOUTH:
-                p.down();
-                if(grille.isFree(p)) {
-                    return moveDown();
-                }
-                else {
-                    boite.addMessage(grille.getId(p), new MessageDemande(id, current, d, p));
-                }
+    private boolean move(Direction d) {
+        synchronized (grille) {
+            if (d == null)
+                return false;
+            Position p;
+            Position p2;
+            p = current.clone();
 
-                break;
-            case EAST:
-                p.right();
-                if(grille.isFree(p)) {
-                    return moveRight();
-                }
-                else {
-                    boite.addMessage(grille.getId(p), new MessageDemande(id, current, d, p));
-                }
-                break;
-            case WEST:
-                p.left();
-                if(grille.isFree(p)){
-                     return moveLeft();
-                }
-                else {
-                    boite.addMessage(grille.getId(p), new MessageDemande(id, current, d, p));
-                }
-                break;
-            case NE:
-                p2 = p.clone();
-                p.up();
-                p2.right();
-                if(grille.isFree(p)) {
-                    return moveUp();
-                }else if(grille.isFree(p2)) {
-                    return moveRight();
-                }
-                break;
-            case NW:
-                p2 = p.clone();
-                p.up();
-                p2.left();
-                if(grille.isFree(p)) {
-                    return moveUp();
-                }else if(grille.isFree(p2)) {
-                    return moveLeft();
-                }
-                break;
-            case SE:
-                p2 = p.clone();
-                p.down();
-                p2.right();
-                if(grille.isFree(p)) {
-                    return moveDown();
-                }else if(grille.isFree(p2)) {
-                    return moveRight();
-                }
-                break;
-            case SW:
-                p2 = p.clone();
-                p.down();
-                p2.left();
-                if(grille.isFree(p)) {
-                    return moveDown();
-                }else if(grille.isFree(p2)) {
-                    return moveLeft();
-                }
-                break;
+            switch (d) {
+                case NORTH:
+                    p.up();
+                    if (grille.isFree(p)) {
+                        return moveUp();
+                    } else {
+                        if (grille.isInTab(p)) {
+                            boite.addMessage(grille.getId(p), new MessageDemande(id, current, d, p));
+                        }
+                    }
+                    break;
+                case SOUTH:
+                    p.down();
+                    if (grille.isFree(p)) {
+                        return moveDown();
+                    } else {
+                        if (grille.isInTab(p)) {
+                            boite.addMessage(grille.getId(p), new MessageDemande(id, current, d, p));
+                        }
+                    }
+
+                    break;
+                case EAST:
+                    p.right();
+                    if (grille.isFree(p)) {
+                        return moveRight();
+                    } else {
+                        if (grille.isInTab(p)) {
+                            boite.addMessage(grille.getId(p), new MessageDemande(id, current, d, p));
+                        }
+                    }
+                    break;
+                case WEST:
+                    p.left();
+                    if (grille.isFree(p)) {
+                        return moveLeft();
+                    } else {
+                        if (grille.isInTab(p)) {
+                            boite.addMessage(grille.getId(p), new MessageDemande(id, current, d, p));
+                        }
+                    }
+                    break;
+                case NE:
+                    p2 = p.clone();
+                    p.up();
+                    p2.right();
+                    if (grille.isFree(p)) {
+                        return moveUp();
+                    } else if (grille.isFree(p2)) {
+                        return moveRight();
+                    }
+                    break;
+                case NW:
+                    p2 = p.clone();
+                    p.up();
+                    p2.left();
+                    if (grille.isFree(p)) {
+                        return moveUp();
+                    } else if (grille.isFree(p2)) {
+                        return moveLeft();
+                    }
+                    break;
+                case SE:
+                    p2 = p.clone();
+                    p.down();
+                    p2.right();
+                    if (grille.isFree(p)) {
+                        return moveDown();
+                    } else if (grille.isFree(p2)) {
+                        return moveRight();
+                    }
+                    break;
+                case SW:
+                    p2 = p.clone();
+                    p.down();
+                    p2.left();
+                    if (grille.isFree(p)) {
+                        return moveDown();
+                    } else if (grille.isFree(p2)) {
+                        return moveLeft();
+                    }
+                    break;
+            }
+            return false;
         }
-        return false;
     }
 
 
@@ -201,6 +207,7 @@ public class Agent extends Thread {
             move(d);
             System.out.println(grille.toString());
         }
+        System.out.println("end of thread "+id);
     }
 
 
