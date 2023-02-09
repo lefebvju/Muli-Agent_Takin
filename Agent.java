@@ -3,12 +3,18 @@ public class Agent extends Thread {
     private Position current;
     private Position target;
     private Grille grille;
+    private Messagerie boite;
 
-    public Agent(Position c, Position t, Grille g, Integer _id) {
+    public Agent(Position c, Position t, Grille g, Integer _id, Messagerie b) {
         id = _id;
         current = c;
         target = t;
         grille = g;
+        boite=b;
+
+        g.placeAgentCurrent(new Position(c.X(), c.Y()), id);
+        g.placeAgentTarget(new Position(t.X(), t.Y()), id);
+        b.initAgent(id);
     }
 
     private void moveUp(){

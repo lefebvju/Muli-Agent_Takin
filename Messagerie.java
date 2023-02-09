@@ -1,8 +1,17 @@
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
 public class Messagerie {
     Map<Integer, LinkedList<Message>> boite;
+
+    public Messagerie(){
+        boite = new HashMap<>();
+    }
+
+    public void initAgent(Integer id){
+        boite.put(id,new LinkedList<>());
+    }
 
     public Message getFirstMessage(Integer i){
         synchronized (boite.get(i)) {
