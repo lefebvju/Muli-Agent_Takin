@@ -19,11 +19,11 @@ public class Main {
         g.placeAgentTarget(new Position(3,4), 4);
         g.placeAgentTarget(new Position(4,4), 5);
 
-        Agent a1 = new Agent(new Position(0,0), new Position(0,4), g);
-        Agent a2 = new Agent(new Position(1,1), new Position(1,4), g);
-        Agent a3 = new Agent(new Position(1,3), new Position(2,4), g);
-        Agent a4 = new Agent(new Position(2,1), new Position(3,4), g);
-        Agent a5 = new Agent(new Position(3,4), new Position(4,4), g);
+        Agent a1 = new Agent(new Position(0,0), new Position(0,4), g, 1);
+        Agent a2 = new Agent(new Position(1,1), new Position(1,4), g, 2);
+        Agent a3 = new Agent(new Position(1,3), new Position(2,4), g, 3);
+        Agent a4 = new Agent(new Position(2,1), new Position(3,4), g, 4);
+        Agent a5 = new Agent(new Position(3,4), new Position(4,4), g, 5);
 
         a1.start();
         a2.start();

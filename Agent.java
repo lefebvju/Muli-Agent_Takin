@@ -1,9 +1,11 @@
 public class Agent extends Thread {
+    private Integer id;
     private Position current;
     private Position target;
     private Grille grille;
 
-    public Agent(Position c, Position t, Grille g) {
+    public Agent(Position c, Position t, Grille g, Integer _id) {
+        id = _id;
         current = c;
         target = t;
         grille = g;
