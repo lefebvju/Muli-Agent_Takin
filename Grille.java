@@ -65,7 +65,11 @@ public class Grille {
 
     public boolean isFree(Position p) {
         synchronized (tabCurrent) {
-            return tabCurrent[p.X()][p.Y()] == -1;
+            if(p.X() >= 0 && p.X()<sizeX && p.Y()>= 0 && p.Y() < sizeY){
+                return tabCurrent[p.X()][p.Y()] == -1;
+            }
+            return false;
+            
         }
     }
 
