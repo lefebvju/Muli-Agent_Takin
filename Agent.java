@@ -148,6 +148,12 @@ public class Agent extends Thread {
                         return moveUp();
                     } else if (grille.isFree(p2)) {
                         return moveRight();
+                    } else {
+                        if(PRNG.nextInt(2)==0 &&  grille.isInTab(p)){
+                            boite.addMessage(grille.getId(p), new MessageDemande(id, current, d, p));
+                        } else if(grille.isInTab(p2)){
+                            boite.addMessage(grille.getId(p2), new MessageDemande(id, current, d, p2));
+                        }
                     }
                     break;
                 case NW:
@@ -158,6 +164,12 @@ public class Agent extends Thread {
                         return moveUp();
                     } else if (grille.isFree(p2)) {
                         return moveLeft();
+                    }else {
+                        if(PRNG.nextInt(2)==0 &&  grille.isInTab(p)){
+                            boite.addMessage(grille.getId(p), new MessageDemande(id, current, d, p));
+                        } else if(grille.isInTab(p2)){
+                            boite.addMessage(grille.getId(p2), new MessageDemande(id, current, d, p2));
+                        }
                     }
                     break;
                 case SE:
@@ -168,6 +180,12 @@ public class Agent extends Thread {
                         return moveDown();
                     } else if (grille.isFree(p2)) {
                         return moveRight();
+                    }else {
+                        if(PRNG.nextInt(2)==0 &&  grille.isInTab(p)){
+                            boite.addMessage(grille.getId(p), new MessageDemande(id, current, d, p));
+                        } else if(grille.isInTab(p2)){
+                            boite.addMessage(grille.getId(p2), new MessageDemande(id, current, d, p2));
+                        }
                     }
                     break;
                 case SW:
@@ -178,6 +196,12 @@ public class Agent extends Thread {
                         return moveDown();
                     } else if (grille.isFree(p2)) {
                         return moveLeft();
+                    }else {
+                        if(PRNG.nextInt(2)==0 &&  grille.isInTab(p)){
+                            boite.addMessage(grille.getId(p), new MessageDemande(id, current, d, p));
+                        } else if(grille.isInTab(p2)){
+                            boite.addMessage(grille.getId(p2), new MessageDemande(id, current, d, p2));
+                        }
                     }
                     break;
             }
