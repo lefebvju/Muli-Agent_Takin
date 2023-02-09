@@ -1,11 +1,19 @@
+import java.util.Random;
+
 import static java.lang.Math.abs;
 
 public class Position {
     private int x, y;
 
+    private static final Random PRNG = new Random();
+
     public Position(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public static Position random(int X, int Y){
+        return new Position(PRNG.nextInt(X), PRNG.nextInt(Y));
     }
 
     public int X(){

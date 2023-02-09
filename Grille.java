@@ -78,6 +78,16 @@ public class Grille {
         }
     }
 
+    public boolean isFreeTarget(Position p) {
+        synchronized (tabTarget) {
+            if(p.X() >= 0 && p.X()<sizeX && p.Y()>= 0 && p.Y() < sizeY){
+                return tabTarget[p.X()][p.Y()] == -1;
+            }
+            return false;
+
+        }
+    }
+
     public int getId(Position p) {
         synchronized (tabCurrent) {
 
