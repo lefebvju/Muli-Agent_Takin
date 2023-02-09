@@ -24,7 +24,9 @@ public class Agent extends Thread {
 
     private boolean moveUp(){
         if (current.Y() > 0){
+            Position p = current.clone();
             current.up();
+            grille.move(p,current);
             return true;
         } 
         return false;
@@ -32,7 +34,9 @@ public class Agent extends Thread {
 
     private boolean moveDown(){
         if (current.Y() < grille.getSizeY() - 1) {
+            Position p = current.clone();
             current.down();
+            grille.move(p,current);
             return true;
         }
         return false;
@@ -40,7 +44,9 @@ public class Agent extends Thread {
 
     private boolean moveLeft(){
         if (current.X() > 0){
+            Position p = current.clone();
             current.left();
+            grille.move(p,current);
             return true;
         }
         return false;
@@ -48,7 +54,9 @@ public class Agent extends Thread {
 
     private boolean moveRight(){
         if (current.X() < grille.getSizeX() - 1){
+            Position p = current.clone();
             current.right();
+            grille.move(p,current);
             return true;
         }
         return false;
@@ -87,17 +95,13 @@ public class Agent extends Thread {
             return false;
         Position p;
         Position p2;
-        try {
-            p = (Position) current.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException(e);
-        }
+        p = current.clone();
+        
         switch (d){
             case NORTH:
                 p.up();
-                if(grille.isFree(p) && moveUp()) {
-                    grille.move(current, p);
-                    return true;
+                if(grille.isFree(p)) {
+                    return moveUp();
                 }
                 else {
                     boite.addMessage(grille.getId(p), new MessageDemande(id, current, d, p));
@@ -105,9 +109,8 @@ public class Agent extends Thread {
                 break;
             case SOUTH:
                 p.down();
-                if(grille.isFree(p) && moveDown()) {
-                    grille.move(current, p);
-                    return true;
+                if(grille.isFree(p)) {
+                    return moveDown();
                 }
                 else {
                     boite.addMessage(grille.getId(p), new MessageDemande(id, current, d, p));
@@ -116,9 +119,8 @@ public class Agent extends Thread {
                 break;
             case EAST:
                 p.right();
-                if(grille.isFree(p) && moveRight()) {
-                    grille.move(current, p);
-                    return true;
+                if(grille.isFree(p)) {
+                    return moveRight();
                 }
                 else {
                     boite.addMessage(grille.getId(p), new MessageDemande(id, current, d, p));
@@ -126,76 +128,51 @@ public class Agent extends Thread {
                 break;
             case WEST:
                 p.left();
-                if(grille.isFree(p) && moveLeft()) {
-                    grille.move(current, p);
-                    return true;
+                if(grille.isFree(p)){
+                     return moveLeft();
                 }
                 else {
                     boite.addMessage(grille.getId(p), new MessageDemande(id, current, d, p));
                 }
                 break;
             case NE:
-                try {
-                    p2 = (Position) p.clone();
-                } catch (CloneNotSupportedException e) {
-                    throw new RuntimeException(e);
-                }
+                p2 = p.clone();
                 p.up();
                 p2.right();
-                if(grille.isFree(p) && moveUp()) {
-                    grille.move(current, p);
-                    return true;
-                }else if(grille.isFree(p2) && moveRight()) {
-                    grille.move(current, p2);
-                    return true;
+                if(grille.isFree(p)) {
+                    return moveUp();
+                }else if(grille.isFree(p2)) {
+                    return moveRight();
                 }
                 break;
             case NW:
-                try {
-                    p2 = (Position) p.clone();
-                } catch (CloneNotSupportedException e) {
-                    throw new RuntimeException(e);
-                }
+                p2 = p.clone();
                 p.up();
                 p2.left();
-                if(grille.isFree(p) && moveUp()) {
-                    grille.move(current, p);
-                    return true;
-                }else if(grille.isFree(p2) && moveLeft()) {
-                    grille.move(current, p2);
-                    return true;
+                if(grille.isFree(p)) {
+                    return moveUp();
+                }else if(grille.isFree(p2)) {
+                    return moveLeft();
                 }
                 break;
             case SE:
-                try {
-                    p2 = (Position) p.clone();
-                } catch (CloneNotSupportedException e) {
-                    throw new RuntimeException(e);
-                }
+                p2 = p.clone();
                 p.down();
                 p2.right();
-                if(grille.isFree(p) && moveDown()) {
-                    grille.move(current, p);
-                    return true;
-                }else if(grille.isFree(p2) && moveRight()) {
-                    grille.move(current, p2);
-                    return true;
+                if(grille.isFree(p)) {
+                    return moveDown();
+                }else if(grille.isFree(p2)) {
+                    return moveRight();
                 }
                 break;
             case SW:
-                try {
-                    p2 = (Position) p.clone();
-                } catch (CloneNotSupportedException e) {
-                    throw new RuntimeException(e);
-                }
+                p2 = p.clone();
                 p.down();
                 p2.left();
-                if(grille.isFree(p) && moveDown()) {
-                    grille.move(current, p);
-                    return true;
-                }else if(grille.isFree(p2) && moveLeft()) {
-                    grille.move(current, p2);
-                    return true;
+                if(grille.isFree(p)) {
+                    return moveDown();
+                }else if(grille.isFree(p2)) {
+                    return moveLeft();
                 }
                 break;
         }
