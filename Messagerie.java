@@ -5,14 +5,20 @@ public class Messagerie {
     Map<Integer, LinkedList<Message>> boite;
 
     public Message getFirstMessage(Integer i){
-        return boite.get(i).getFirst();
+        synchronized (boite.get(i)) {
+            return boite.get(i).getFirst();
+        }
     }
 
     public void removeFirstMessage(Integer i){
-        boite.get(i).removeFirst();
+        synchronized (boite.get(i)) {
+            boite.get(i).removeFirst();
+        }
     }
 
-    public void addMessage(Integer i, Message m){
-        boite.get(i).addLast(m);
+    public void addMessage(Integer i, Message m) {
+        synchronized (boite.get(i)) {
+            boite.get(i).addLast(m);
+        }
     }
 }
