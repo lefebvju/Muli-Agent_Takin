@@ -1,3 +1,4 @@
+import java.security.Signature;
 import java.text.DecimalFormat;
 
 public class Grille {
@@ -63,6 +64,10 @@ public class Grille {
         }
     }
 
+    public boolean isInTab(Position p){
+        return (p.X()>=0 && p.Y()>=0 && p.X()<sizeX && p.Y()<sizeY);
+    }
+
     public boolean isFree(Position p) {
         synchronized (tabCurrent) {
             if(p.X() >= 0 && p.X()<sizeX && p.Y()>= 0 && p.Y() < sizeY){
@@ -75,6 +80,7 @@ public class Grille {
 
     public int getId(Position p) {
         synchronized (tabCurrent) {
+
             return tabCurrent[p.X()][p.Y()];
         } 
     }
