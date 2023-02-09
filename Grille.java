@@ -69,6 +69,12 @@ public class Grille {
         }
     }
 
+    public int getId(Position p) {
+        synchronized (tabCurrent) {
+            return tabCurrent[p.X()][p.Y()];
+        } 
+    }
+
     private void verif() {
             for (int i = 0; i < sizeX; i++) {
                 for (int j = 0; j < sizeY; j++) {

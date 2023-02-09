@@ -84,6 +84,9 @@ public class Agent extends Thread {
                     moveUp();
                     return true;
                 }
+                else {
+                    boite.addMessage(grille.getId(p), new MessageDemande(id, current, d, p));
+                }
                 break;
             case SOUTH:
                 p.down();
@@ -91,6 +94,9 @@ public class Agent extends Thread {
                     grille.move(current, p);
                     moveDown();
                     return true;
+                }
+                else {
+                    boite.addMessage(grille.getId(p), new MessageDemande(id, current, d, p));
                 }
 
                 break;
@@ -101,6 +107,9 @@ public class Agent extends Thread {
                     moveRight();
                     return true;
                 }
+                else {
+                    boite.addMessage(grille.getId(p), new MessageDemande(id, current, d, p));
+                }
                 break;
             case WEST:
                 p.left();
@@ -108,6 +117,9 @@ public class Agent extends Thread {
                     grille.move(current, p);
                     moveLeft();
                     return true;
+                }
+                else {
+                    boite.addMessage(grille.getId(p), new MessageDemande(id, current, d, p));
                 }
                 break;
             case NE:
@@ -199,6 +211,7 @@ public class Agent extends Thread {
                 Direction dtmp = directions[PRNG.nextInt(directions.length)];
 
                 move(dtmp);
+                System.out.println(grille.toString());
             }
             
             move(d);
