@@ -9,7 +9,7 @@ public class Main {
 
         g.addObserver(vue);
         vue.setVisible(true);
-        g.init(NBAGENT);
+        //g.init(NBAGENT);
         // Messagerie m = new Messagerie();
         // Agent[] tabAgent = new Agent[NBAGENT];
 

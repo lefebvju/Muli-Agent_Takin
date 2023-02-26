@@ -19,7 +19,7 @@ public class Grille extends Observable {
         sizeY = y;
         tabCurrent = new int[x][y];
         tabTarget = new int[x][y];
-        finished = false;
+        finished = true;
         nbDep = 0;
 
         for (int i = 0; i < sizeX; i++) {
@@ -157,39 +157,39 @@ public class Grille extends Observable {
     Agent[] tabAgent;
     int run;
     public void init(int nbAgent) {
+        if(finished == true) {
+            finished = false;
+            nbDep = 0;
+            run = 0;
+            System.out.println("RUN ====== " + run + "   FINISH ===== " + finished);
 
-        // Mise en forme de la grille
-        finished = false;
-        nbDep = 0;
-        run = 0;
-        System.out.println("RUN ====== " + run + "   FINISH ===== " + finished);
-
-        for (int i = 0; i < sizeX; i++) {
-            for (int j = 0; j < sizeY; j++) {
-                tabCurrent[i][j] = -1;
-                tabTarget[i][j] = -1;
+            for (int i = 0; i < sizeX; i++) {
+                for (int j = 0; j < sizeY; j++) {
+                    tabCurrent[i][j] = -1;
+                    tabTarget[i][j] = -1;
+                }
             }
+
+            // Gestion des agents
+            Messagerie m = new Messagerie();
+            tabAgent = new Agent[nbAgent];
+
+            for(int i=0; i<nbAgent; i++){
+                Position p1;
+                do {
+                    p1 = Position.random(getSizeX(), getSizeY());
+                }while(!isFree(p1));
+                Position p2;
+                do {
+                    p2 = Position.random(getSizeX(), getSizeY());
+                }while(!isFreeTarget(p2));
+                tabAgent[i]=new Agent(p1,p2,this,i,m);
+
+            }
+
+            setChanged();
+            notifyObservers();
         }
-
-        // Gestion des agents
-        Messagerie m = new Messagerie();
-        tabAgent = new Agent[nbAgent];
-
-        for(int i=0; i<nbAgent; i++){
-            Position p1;
-            do {
-                p1 = Position.random(getSizeX(), getSizeY());
-            }while(!isFree(p1));
-            Position p2;
-            do {
-                p2 = Position.random(getSizeX(), getSizeY());
-            }while(!isFreeTarget(p2));
-            tabAgent[i]=new Agent(p1,p2,this,i,m);
-
-        }
-
-        setChanged();
-        notifyObservers();
     }
 
     public void start(int nbAgent) {
@@ -201,6 +201,7 @@ public class Grille extends Observable {
                     tabAgent[i].start();
                 }
             } else if (run == 2) {
+                System.out.println("RUN ====== " + run + "   Reprise ===== " + finished);
                 run = 1;
                 for(int i=0; i<nbAgent;i++){
                     tabAgent[i].resume();
@@ -215,9 +216,11 @@ public class Grille extends Observable {
             if(run == 1){
                 System.out.println("PAUSE");
                 run = 2;
+                System.out.println("RUN ====== " + run + "   PAUSE ===== " + finished);
                 for(int i=0; i<nbAgent;i++){
                     tabAgent[i].suspend();
                 }
+                System.out.println("Tout le monde est en pause");
             }     
         }   
     }
