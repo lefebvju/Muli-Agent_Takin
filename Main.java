@@ -1,11 +1,9 @@
 public class Main {
 
-    final static int NBAGENT = 15;
-
     public static void main(String[] args) {
 
         Grille g = new Grille(5,5);
-        vueTaquin vue = new vueTaquin(g, NBAGENT);
+        vueTaquin vue = new vueTaquin(g);
 
         g.addObserver(vue);
         vue.setVisible(true);

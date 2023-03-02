@@ -20,7 +20,8 @@ public class vueTaquin extends JFrame implements Observer {
     private Grille grille;
 
 
-    public vueTaquin(Grille _g, int nbAgent) {
+    public vueTaquin(Grille _g) {
+        final int[] nbAgent = new int[1];
         grille = _g;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //setSize(jeu.getSize() * PIXEL_PER_SQUARE, jeu.getSize() * PIXEL_PER_SQUARE);
@@ -62,12 +63,16 @@ public class vueTaquin extends JFrame implements Observer {
         FlowLayout layoutUpBottom = (FlowLayout)contentPaneUpBottom.getLayout();
         layoutUpBottom.setVgap(0);
 
+        JSpinner nbAgentInput = new JSpinner(new SpinnerNumberModel(10,1,25,1));
+        contentPaneUpBottom.add(nbAgentInput);
+
         nouveau = new JButton("Nouveau");
         nouveau.setBackground(Color.decode("#F75E3E"));
         nouveau.setForeground(Color.white);
         nouveau.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                 grille.init(nbAgent);
+                nbAgent[0] = (Integer) nbAgentInput.getValue();
+                grille.init(nbAgent[0]);
             }
         }); 
         nouveau.setFocusable(false);
@@ -95,7 +100,7 @@ public class vueTaquin extends JFrame implements Observer {
         //AIFullGame.setBackground(Color.lightGray);
         lancer.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                 grille.start(nbAgent);
+                 grille.start(nbAgent[0]);
             }
         }); 
         lancer.setFocusable(false);
@@ -106,7 +111,7 @@ public class vueTaquin extends JFrame implements Observer {
         //AIFullGame.setBackground(Color.lightGray);
         stop.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                grille.pause(nbAgent);
+                grille.pause(nbAgent[0]);
             }
         }); 
         stop.setFocusable(false);
