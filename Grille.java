@@ -79,6 +79,26 @@ public class Grille extends Observable {
         return (p.X()>=0 && p.Y()>=0 && p.X()<sizeX && p.Y()<sizeY);
     }
 
+    public boolean isInTab(Position p, Direction d){
+        Position ptmp = p.clone();
+        switch (d) {
+            case NORTH:
+                p.up();
+                return isInTab(ptmp);
+            case SOUTH:
+                p.down();
+                return isInTab(ptmp);
+            case EAST:
+                p.right();
+                return isInTab(ptmp);
+            case WEST:
+                p.left();
+                return isInTab(ptmp);
+
+        }
+        return false;
+    }
+
     public boolean isFree(Position p) {
         synchronized (tabCurrent) {
             if(p.X() >= 0 && p.X()<sizeX && p.Y()>= 0 && p.Y() < sizeY){
