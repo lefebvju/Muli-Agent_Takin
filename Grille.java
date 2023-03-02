@@ -219,13 +219,18 @@ public class Grille extends Observable {
                     p1 = Position.random(getSizeX(), getSizeY());
                 }while(!isFree(p1));
                 Position p2;
-                do {
-                    p2 = Position.random(getSizeX(), getSizeY());
-                }while(!isFreeTarget(p2));
+                int ind1D;
+                //do {
+                    //p2 = Position.random(getSizeX(), getSizeY());
+                    ind1D = targetVal.indexOf(i);
+                    p2 = new Position(ind1D%sizeY,ind1D/sizeX);
+                    System.out.println("i= " + i +" " + p2);
+                //}while(!isFreeTarget(p2));
                 tabAgent[i]=new Agent(p1,p2,this,i,m);
 
             }
 
+            System.out.println(toString());
             setChanged();
             notifyObservers();
         }

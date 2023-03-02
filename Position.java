@@ -71,4 +71,9 @@ public class Position {
     protected Position clone() {
         return new Position(x,y);
     }
+
+    @Override
+    public String toString() {
+        return "("+x+":"+y+")";
+    }
 }
