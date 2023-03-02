@@ -94,7 +94,8 @@ public class Grille extends Observable {
             case WEST:
                 ptmp.left();
                 return isInTab(ptmp);
-
+            default:
+                System.out.println("erreur");
         }
         return false;
     }
