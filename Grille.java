@@ -1,6 +1,9 @@
 import java.security.Signature;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
+import java.util.Random;
 
 public class Grille extends Observable {
     private final int sizeX;
@@ -70,8 +73,7 @@ public class Grille extends Observable {
             verif();
             nbDep++;
             setChanged();
-            notifyObservers();    
-               
+            notifyObservers();  
         }
     }
 
@@ -194,6 +196,22 @@ public class Grille extends Observable {
             // Gestion des agents
             Messagerie m = new Messagerie();
             tabAgent = new Agent[nbAgent];
+
+            // Tirage position target
+            int nbTrou = getSizeX() * getSizeY() - nbAgent;
+            Random rand = new Random();
+            int ind;
+            ArrayList<Integer> targetVal = new ArrayList<Integer>();
+            for (int i = 0; i < nbAgent; i++) {
+                targetVal.add(i);
+            }
+            for (int i = 0; i < nbTrou; i++) {
+                ind = rand.nextInt(targetVal.size() + 1);
+                targetVal.add(ind, -1);
+            }
+            System.out.println(targetVal);          
+
+
 
             for(int i=0; i<nbAgent; i++){
                 Position p1;
