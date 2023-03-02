@@ -83,16 +83,16 @@ public class Grille extends Observable {
         Position ptmp = p.clone();
         switch (d) {
             case NORTH:
-                p.up();
+                ptmp.up();
                 return isInTab(ptmp);
             case SOUTH:
-                p.down();
+                ptmp.down();
                 return isInTab(ptmp);
             case EAST:
-                p.right();
+                ptmp.right();
                 return isInTab(ptmp);
             case WEST:
-                p.left();
+                ptmp.left();
                 return isInTab(ptmp);
 
         }
