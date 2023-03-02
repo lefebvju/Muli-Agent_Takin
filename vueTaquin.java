@@ -142,6 +142,7 @@ public class vueTaquin extends JFrame implements Observer {
                 for (int i = 0; i < grille.getSizeX(); i++) {
                     for (int j = 0; j < grille.getSizeY(); j++) {
                         int numCase = grille.getId(j, i);
+                        int numCaseTarget = grille.getIdTarget(j, i);
 
                         if(grille.isFinished()){
                             tabC[i][j].setForeground(Color.WHITE);
@@ -160,7 +161,11 @@ public class vueTaquin extends JFrame implements Observer {
                             } else {    
                                 tabC[i][j].setText(numCase + "");
                                 tabC[i][j].setForeground(Color.WHITE);
-                                tabC[i][j].setBackground(Color.decode("#f67c5f"));
+                                if(numCaseTarget == numCase) {
+                                    tabC[i][j].setBackground(Color.GRAY);
+                                } else {
+                                    tabC[i][j].setBackground(Color.decode("#f67c5f"));
+                                }
                             }
                         }         
 

@@ -225,4 +225,10 @@ public class Grille extends Observable {
         }   
     }
 
+    public int getIdTarget(int x, int y) {
+        synchronized (tabTarget) {
+            return tabTarget[x][y];
+        } 
+    }
+
 }
