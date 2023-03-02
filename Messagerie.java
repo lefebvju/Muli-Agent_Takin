@@ -27,6 +27,11 @@ public class Messagerie {
             boite.get(i).removeFirst();
         }
     }
+    public void removeAllMessages(Integer i){
+        synchronized (boite.get(i)) {
+            boite.get(i).clear();
+        }
+    }
 
     public void addMessage(Integer i, Message m) {
         synchronized (boite.get(i)) {

@@ -219,7 +219,7 @@ public class Agent extends Thread {
 
             Message m = boite.getFirstMessage(id);            
             if(m!=null) {
-                boite.removeFirstMessage(id);
+                boite.removeAllMessages(id);
                 if (m.destinationPosition.equals(current)) {
                     Direction[] directions = Direction.values();
                     Direction dtmp = directions[PRNG.nextInt(directions.length)];
@@ -227,9 +227,9 @@ public class Agent extends Thread {
                     gestion_move(dtmp);
                     System.out.println(grille.toString());
                 }
+            }else {
+                gestion_move(d);
             }
-            
-            gestion_move(d);
             System.out.println(grille.toString());
         }
         System.out.println("end of thread "+id);
