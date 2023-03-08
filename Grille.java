@@ -67,6 +67,7 @@ public class Grille extends Observable {
     }
 
     public boolean isFinished() {
+        verif();
         return finished;
     }
 
