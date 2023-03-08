@@ -16,7 +16,6 @@ public class vueTaquin extends JFrame implements Observer {
     private JLabel nbDeplacements;
     private JButton nouveau;
     private JButton lancer;
-    private JButton stop;
     private Grille grille;
 
 
@@ -104,18 +103,7 @@ public class vueTaquin extends JFrame implements Observer {
             }
         }); 
         lancer.setFocusable(false);
-        contentPaneBottomDown.add(lancer);
-
-        stop = new JButton("Stop");
-        stop.setBackground(Color.decode("#FFE5AE"));
-        //AIFullGame.setBackground(Color.lightGray);
-        stop.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                grille.pause(nbAgent[0]);
-            }
-        }); 
-        stop.setFocusable(false);
-        contentPaneBottomDown.add(stop);
+        contentPaneBottomDown.add(lancer);        
 
         contentPaneDown.add(contentPaneBottomDown);
 

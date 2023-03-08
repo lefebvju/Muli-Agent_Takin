@@ -178,12 +178,12 @@ public class Grille extends Observable {
 
     // TODO: voir comment stocker ce tableau. Doit-on créer une nouvele classe pour gérer le "jeu" ?
     Agent[] tabAgent;
-    int run;
+    boolean run;
     public void init(int nbAgent) {
-        if(finished == true) {
+        if(finished) {
             finished = false;
             nbDep = 0;
-            run = 0;
+            run = false;
             System.out.println("RUN ====== " + run + "   FINISH ===== " + finished);
 
             for (int i = 0; i < sizeX; i++) {
@@ -239,35 +239,15 @@ public class Grille extends Observable {
     public void start(int nbAgent) {
         System.out.println("RUN ====== " + run + "   FINISH ===== " + finished);
         if(!isFinished()){
-            if(run == 0) {
-                run = 1;
+            if(!run) {
+                run = true;
                 for(int i=0; i<nbAgent;i++){
                     tabAgent[i].start();
-                }
-            } else if (run == 2) {
-                System.out.println("RUN ====== " + run + "   Reprise ===== " + finished);
-                run = 1;
-                for(int i=0; i<nbAgent;i++){
-                    tabAgent[i].resume();
                 }
             }
         }
         
-    }
-
-    public void pause(int nbAgent) {
-        if(!isFinished()){
-            if(run == 1){
-                System.out.println("PAUSE");
-                run = 2;
-                System.out.println("RUN ====== " + run + "   PAUSE ===== " + finished);
-                for(int i=0; i<nbAgent;i++){
-                    tabAgent[i].suspend();
-                }
-                System.out.println("Tout le monde est en pause");
-            }     
-        }   
-    }
+    }   
 
     public int getIdTarget(int x, int y) {
         synchronized (tabTarget) {
