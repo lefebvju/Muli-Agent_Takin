@@ -184,7 +184,7 @@ public class Grille extends Observable {
     }
 
     public void init(int nbAgent) {
-        if(!run) {
+        //if(!run) {
             finished = false;
             nbDep = 0;
             System.out.println("RUN ====== " + run + "   FINISH ===== " + finished);
@@ -236,7 +236,7 @@ public class Grille extends Observable {
             System.out.println(toString());
             setChanged();
             notifyObservers();
-        }
+        //}
     }
 
     public void start(int nbAgent) {
