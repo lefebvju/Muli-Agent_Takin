@@ -13,6 +13,10 @@ public class Grille extends Observable {
     private boolean finished;
     private int nbDep;
 
+    // --- Utile pour le MVC ---
+    Agent[] tabAgent;
+    boolean run;
+
     public int getNbDep() {
         return nbDep;
     }
@@ -24,6 +28,7 @@ public class Grille extends Observable {
         tabTarget = new int[x][y];
         finished = true;
         nbDep = 0;
+        run = false;
 
         for (int i = 0; i < sizeX; i++) {
             for (int j = 0; j < sizeY; j++) {
@@ -136,15 +141,16 @@ public class Grille extends Observable {
     }
 
     private void verif() {
-            for (int i = 0; i < sizeX; i++) {
-                for (int j = 0; j < sizeY; j++) {
-                    if (tabCurrent[i][j] != tabTarget[i][j]) {
-                        finished = false;
-                        return;
-                    }
+        for (int i = 0; i < sizeX; i++) {
+            for (int j = 0; j < sizeY; j++) {
+                if (tabCurrent[i][j] != tabTarget[i][j]) {
+                    finished = false;
+                    return;
                 }
             }
-            finished = true;
+        }
+        finished = true;            
+        run = false;
     }
 
     @Override
@@ -176,14 +182,10 @@ public class Grille extends Observable {
         }
     }
 
-    // TODO: voir comment stocker ce tableau. Doit-on créer une nouvele classe pour gérer le "jeu" ?
-    Agent[] tabAgent;
-    boolean run;
     public void init(int nbAgent) {
-        if(finished) {
+        if(!run) {
             finished = false;
             nbDep = 0;
-            run = false;
             System.out.println("RUN ====== " + run + "   FINISH ===== " + finished);
 
             for (int i = 0; i < sizeX; i++) {
@@ -224,7 +226,7 @@ public class Grille extends Observable {
                     //p2 = Position.random(getSizeX(), getSizeY());
                     ind1D = targetVal.indexOf(i);
                     p2 = new Position(ind1D%sizeY,ind1D/sizeX);
-                    System.out.println("i= " + i +" " + p2);
+                    //System.out.println("i= " + i +" " + p2);
                 //}while(!isFreeTarget(p2));
                 tabAgent[i]=new Agent(p1,p2,this,i,m);
 
