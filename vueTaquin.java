@@ -62,7 +62,9 @@ public class vueTaquin extends JFrame implements Observer {
         FlowLayout layoutUpBottom = (FlowLayout)contentPaneUpBottom.getLayout();
         layoutUpBottom.setVgap(0);
 
-        JSpinner nbAgentInput = new JSpinner(new SpinnerNumberModel(20,1,25,1));
+        JSpinner nbAgentInput =
+                new JSpinner(new SpinnerNumberModel((int)((grille.getSizeX()*grille.getSizeY())*0.8),1,
+                (grille.getSizeX()*grille.getSizeY())-1,1));
         contentPaneUpBottom.add(nbAgentInput);
 
         nouveau = new JButton("Nouveau");
