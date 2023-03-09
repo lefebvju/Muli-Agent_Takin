@@ -118,6 +118,27 @@ public class Grille extends Observable {
         }
     }
 
+    public boolean isFree(Position p, Direction d) {
+        Position ptmp = p.clone();
+        switch (d) {
+            case NORTH:
+                ptmp.up();
+                return isFree(ptmp);
+            case SOUTH:
+                ptmp.down();
+                return isFree(ptmp);
+            case EAST:
+                ptmp.right();
+                return isFree(ptmp);
+            case WEST:
+                ptmp.left();
+                return isFree(ptmp);
+            default:
+                System.out.println("erreur");
+        }
+        return false;
+    }
+
     public boolean isFreeTarget(Position p) {
         synchronized (tabTarget) {
             if(p.X() >= 0 && p.X()<sizeX && p.Y()>= 0 && p.Y() < sizeY){
