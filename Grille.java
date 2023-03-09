@@ -180,9 +180,9 @@ public class Grille extends Observable {
         synchronized (tabCurrent) {
             String retour = "";
             DecimalFormat formatter = new DecimalFormat("00");
-            for (int row = 0; row < sizeY; row++) {
+            for (int col = 0; col < sizeX; col++) {
                 retour += "| ";
-                for (int col = 0; col < sizeX; col++) {
+                for (int row = 0; row < sizeY; row++) {
                     if (tabCurrent[col][row] != -1) {
                         retour += formatter.format(tabCurrent[col][row]) + (" | ");
                     } else {
@@ -191,7 +191,8 @@ public class Grille extends Observable {
                 }
                 retour += "            -->            | ";
 
-                for (int col = 0; col < sizeX; col++) {
+
+                    for (int row = 0; row < sizeY; row++) {
                     if (tabTarget[col][row] != -1) {
                         retour += formatter.format(tabTarget[col][row]) + (" | ");
                     } else {
@@ -247,7 +248,7 @@ public class Grille extends Observable {
                 //do {
                     //p2 = Position.random(getSizeX(), getSizeY());
                     ind1D = targetVal.indexOf(i);
-                    p2 = new Position(ind1D%sizeY,ind1D/sizeX);
+                    p2 = new Position(ind1D/sizeY,ind1D%sizeY);
                     //System.out.println("i= " + i +" " + p2);
                 //}while(!isFreeTarget(p2));
                 tabAgent[i]=new Agent(p1,p2,this,i,m);

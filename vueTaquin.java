@@ -136,8 +136,8 @@ public class vueTaquin extends JFrame implements Observer {
 
                 for (int i = 0; i < grille.getSizeX(); i++) {
                     for (int j = 0; j < grille.getSizeY(); j++) {
-                        int numCase = grille.getId(j, i);
-                        int numCaseTarget = grille.getIdTarget(j, i);
+                        int numCase = grille.getId(i, j);
+                        int numCaseTarget = grille.getIdTarget(i, j);
 
                         if(grille.isFinished()){
                             tabC[i][j].setForeground(Color.WHITE);
