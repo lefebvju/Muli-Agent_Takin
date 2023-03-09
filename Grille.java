@@ -37,6 +37,22 @@ public class Grille extends Observable {
             }
         }
     }
+    Grille(Grille g){
+        sizeX = g.getSizeX();
+        sizeY = g.getSizeY();
+        tabCurrent = new int[sizeX][sizeY];
+        tabTarget = new int[sizeX][sizeY];
+        finished = g.finished;
+        nbDep = g.getNbDep();
+        run = g.run;
+
+        for (int i = 0; i < sizeX; i++) {
+            for (int j = 0; j < sizeY; j++) {
+                tabCurrent[i][j] = g.tabCurrent[i][j];
+                tabTarget[i][j] = g.tabTarget[i][j];
+            }
+        }
+    }
 
     public boolean placeAgentCurrent(Position p, int numAgent) {
         synchronized (tabCurrent) {
