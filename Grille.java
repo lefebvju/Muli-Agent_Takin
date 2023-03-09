@@ -155,6 +155,78 @@ public class Grille extends Observable {
         return false;
     }
 
+    public boolean isEdgeCorrect(Position p){
+        if(p.X()==0) {
+            return edgeCorrect(Direction.NORTH);
+        } if(p.X()==sizeX-1) {
+            return edgeCorrect(Direction.SOUTH);
+        } if(p.Y()==0) {
+            return edgeCorrect(Direction.WEST);
+        } if(p.Y()==sizeY-1) {
+            return edgeCorrect(Direction.EAST);
+        }
+        return false;
+    }
+
+    private boolean edgeCorrect(Direction d) {
+        synchronized (tabCurrent) {
+            synchronized (tabTarget) {
+                int[][] current;
+                int[][] target;
+                switch (d) {
+                    case NORTH:
+                        for (int i = 0; i < sizeX; i++) {
+                            if (tabCurrent[0][i] != tabTarget[0][i] || tabTarget[0][i] == -1) {
+                                return false;
+                            }
+                        }
+                        current = reformate(tabCurrent,1,sizeX,0,sizeY);
+                        target = reformate(tabTarget,1,sizeX,0,sizeY);
+                        return Solveur.soluble(current,target,sizeX-1,sizeY);
+                    case SOUTH:
+                        for (int i = 0; i < sizeX; i++) {
+                            if (tabCurrent[sizeX - 1][i] != tabTarget[sizeX - 1][i] || tabTarget[sizeX-1][i] == -1) {
+                                return false;
+                            }
+                        }
+                        current = reformate(tabCurrent,0,sizeX-1,0,sizeY);
+                        target = reformate(tabTarget,0,sizeX-1,0,sizeY);
+                        return Solveur.soluble(current,target,sizeX-1,sizeY);
+                    case WEST:
+                        for (int i = 0; i < sizeY; i++) {
+                            if (tabCurrent[i][0] != tabTarget[i][0] || tabTarget[i][0] == -1) {
+                                return false;
+                            }
+                        }
+                        current = reformate(tabCurrent,0,sizeX,1 ,sizeY);
+                        target = reformate(tabTarget,0,sizeX,1,sizeY);
+                        return Solveur.soluble(current,target,sizeX,sizeY-1);
+                    case EAST:
+                        for (int i = 0; i < sizeY; i++) {
+                            if (tabCurrent[i][sizeY - 1] != tabTarget[i][sizeY - 1] || tabTarget[i][sizeY-1] == -1) {
+                                return false;
+                            }
+                        }
+                        current = reformate(tabCurrent,0,sizeX,0,sizeY-1);
+                        target = reformate(tabTarget,0,sizeX,0,sizeY-1);
+                        return Solveur.soluble(current,target,sizeX,sizeY-1);
+                    default:
+                        return false;
+                }
+            }
+        }
+    }
+
+    private int[][] reformate(int[][] tab, int x1, int x2, int y1, int y2) {
+        int[][] copie = new int[x2-x1][y2-y1];
+        for (int i=x1;i<x2;i++){
+            for(int j=y1;j<y2;j++){
+                copie[i-x1][j-y1]=tab[i][j];
+            }
+        }
+        return copie;
+    }
+
     public boolean isFreeTarget(Position p) {
         synchronized (tabTarget) {
             if(p.X() >= 0 && p.X()<sizeX && p.Y()>= 0 && p.Y() < sizeY){
@@ -227,49 +299,50 @@ public class Grille extends Observable {
             nbDep = 0;
             System.out.println("RUN ====== " + run + "   FINISH ===== " + finished);
 
-            for (int i = 0; i < sizeX; i++) {
-                for (int j = 0; j < sizeY; j++) {
-                    tabCurrent[i][j] = -1;
-                    tabTarget[i][j] = -1;
+            do {
+                for (int i = 0; i < sizeX; i++) {
+                    for (int j = 0; j < sizeY; j++) {
+                        tabCurrent[i][j] = -1;
+                        tabTarget[i][j] = -1;
+                    }
                 }
-            }
 
-            // Gestion des agents
-            Messagerie m = new Messagerie();
-            tabAgent = new Agent[nbAgent];
+                // Gestion des agents
+                Messagerie m = new Messagerie();
+                tabAgent = new Agent[nbAgent];
 
-            // Tirage position target
-            int nbTrou = getSizeX() * getSizeY() - nbAgent;
-            Random rand = new Random();
-            int ind;
-            ArrayList<Integer> targetVal = new ArrayList<Integer>();
-            for (int i = 0; i < nbAgent; i++) {
-                targetVal.add(i);
-            }
-            for (int i = 0; i < nbTrou; i++) {
-                ind = rand.nextInt(targetVal.size() + 1);
-                targetVal.add(ind, -1);
-            }
-            System.out.println(targetVal);          
-
+                // Tirage position target
+                int nbTrou = getSizeX() * getSizeY() - nbAgent;
+                Random rand = new Random();
+                int ind;
+                ArrayList<Integer> targetVal = new ArrayList<Integer>();
+                for (int i = 0; i < nbAgent; i++) {
+                    targetVal.add(i);
+                }
+                for (int i = 0; i < nbTrou; i++) {
+                    ind = rand.nextInt(targetVal.size() + 1);
+                    targetVal.add(ind, -1);
+                }
+                System.out.println(targetVal);
 
 
-            for(int i=0; i<nbAgent; i++){
-                Position p1;
-                do {
-                    p1 = Position.random(getSizeX(), getSizeY());
-                }while(!isFree(p1));
-                Position p2;
-                int ind1D;
-                //do {
+                for (int i = 0; i < nbAgent; i++) {
+                    Position p1;
+                    do {
+                        p1 = Position.random(getSizeX(), getSizeY());
+                    } while (!isFree(p1));
+                    Position p2;
+                    int ind1D;
+                    //do {
                     //p2 = Position.random(getSizeX(), getSizeY());
                     ind1D = targetVal.indexOf(i);
-                    p2 = new Position(ind1D/sizeY,ind1D%sizeY);
+                    p2 = new Position(ind1D / sizeY, ind1D % sizeY);
                     //System.out.println("i= " + i +" " + p2);
-                //}while(!isFreeTarget(p2));
-                tabAgent[i]=new Agent(p1,p2,this,i,m);
+                    //}while(!isFreeTarget(p2));
+                    tabAgent[i] = new Agent(p1, p2, this, i, m);
 
-            }
+                }
+            }while(!Solveur.soluble(tabCurrent,tabTarget,sizeX,sizeY));
 
             System.out.println(toString());
             setChanged();

@@ -220,7 +220,7 @@ public class Agent extends Thread {
     @Override
     public void run() {
         moveMsg = null;
-        while (!grille.isFinished()) {
+        while (!grille.isFinished() && !grille.isEdgeCorrect(target)) {
             Direction d = getDir();
             Position postmp;
 
