@@ -231,24 +231,36 @@ public class Agent extends Thread {
                 if (m != null) {
                     boite.removeAllMessages(id);
                     if (m.destinationPosition.equals(current)) {
-                        Direction[] directions = Direction.NW.perpendiculair(m.sourceDirection);
-                        Direction dtmp = directions[PRNG.nextInt(directions.length)];
+                        Direction dtmp;
+                        //Si la direction du message est equivalente à la mienne, je me déplace
+                        //dans cette direction en priorité
+                        if(m.sourceDirection.equivalent(d)) {
+                            dtmp = m.sourceDirection;
+                        } else { //Sinon, je me décale sur les côtés avec 4 chance 5, où dans le même sens avec 1 chance sur 5
+                            Direction[] directions = m.sourceDirection.perpendiculair();
+                            dtmp = directions[PRNG.nextInt(directions.length)];
+                        }                      
 
+                        // Je me déplace dans la direction souhaitée si la case est libre
                         if (gestion_move(dtmp)) {
+                            //Je retiens le message reçu pour ne pas me remettre au même endroit tant que l'envoyeur
+                            //ne s'est pas déplacé
                             moveMsg = m;
-                        } else {
+                        } else { //Sinon, Si la direction indiquée emmène sur une case possible (pas dans le mur)
                             if (grille.isInTab(current,dtmp)) {
+                                //Je stock ce déplacement pour le coup d'après
                                 nextMove = dtmp;
                             }
                         }
                         //System.out.println(grille.toString());
                     }
                 } else {
+                    //Si j'ai un déplacement à effectuer en mémoire, je le fais si possible.
                     if (nextMove != null) {
                         if (gestion_move(nextMove)) {
                             nextMove = null;
                         }
-                    } else {
+                    } else { // Sinon je fais le miens
                         gestion_move(d);
                     }
                 }
