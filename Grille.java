@@ -175,7 +175,7 @@ public class Grille extends Observable {
                 int[][] target;
                 switch (d) {
                     case NORTH:
-                        for (int i = 0; i < sizeX; i++) {
+                        for (int i = 0; i < sizeY; i++) {
                             if (tabCurrent[0][i] != tabTarget[0][i] || tabTarget[0][i] == -1) {
                                 return false;
                             }
@@ -184,7 +184,7 @@ public class Grille extends Observable {
                         target = reformate(tabTarget,1,sizeX,0,sizeY);
                         return Solveur.soluble(current,target,sizeX-1,sizeY);
                     case SOUTH:
-                        for (int i = 0; i < sizeX; i++) {
+                        for (int i = 0; i < sizeY; i++) {
                             if (tabCurrent[sizeX - 1][i] != tabTarget[sizeX - 1][i] || tabTarget[sizeX-1][i] == -1) {
                                 return false;
                             }
@@ -193,7 +193,7 @@ public class Grille extends Observable {
                         target = reformate(tabTarget,0,sizeX-1,0,sizeY);
                         return Solveur.soluble(current,target,sizeX-1,sizeY);
                     case WEST:
-                        for (int i = 0; i < sizeY; i++) {
+                        for (int i = 0; i < sizeX; i++) {
                             if (tabCurrent[i][0] != tabTarget[i][0] || tabTarget[i][0] == -1) {
                                 return false;
                             }
@@ -202,7 +202,7 @@ public class Grille extends Observable {
                         target = reformate(tabTarget,0,sizeX,1,sizeY);
                         return Solveur.soluble(current,target,sizeX,sizeY-1);
                     case EAST:
-                        for (int i = 0; i < sizeY; i++) {
+                        for (int i = 0; i < sizeX; i++) {
                             if (tabCurrent[i][sizeY - 1] != tabTarget[i][sizeY - 1] || tabTarget[i][sizeY-1] == -1) {
                                 return false;
                             }
