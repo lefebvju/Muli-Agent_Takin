@@ -263,8 +263,13 @@ public class Agent extends Thread {
                         if (gestion_move(nextMove) || !grille.isInTab(current,nextMove)) {
                             nextMove = null;
                         } else {
-                            // tmp++;
-                            // System.out.println(id + " " +tmp);
+                            tmp++;
+                            if(tmp>10000){
+                                Direction[] directions={Direction.NORTH,Direction.SOUTH,Direction.WEST,Direction.EAST};
+                                nextMove = directions[PRNG.nextInt(directions.length)];
+                                tmp = 0;
+                                System.out.println("Changement " + id);
+                            }
                         }
                     } else { // Sinon je fais le miens
                         gestion_move(d);

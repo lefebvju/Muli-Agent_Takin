@@ -17,7 +17,7 @@ public class Solveur {
                     nb++;
                 }
         }
-        System.out.println("Solveur permut : "+nb);
+        //System.out.println("Solveur permut : "+nb);
         return (nb%2)==0;
     }
 
