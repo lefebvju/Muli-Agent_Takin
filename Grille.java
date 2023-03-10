@@ -150,7 +150,7 @@ public class Grille extends Observable {
                 ptmp.left();
                 return isFree(ptmp);
             default:
-                System.out.println("erreur");
+                System.out.println("erreur isFree()");
         }
         return false;
     }

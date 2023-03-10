@@ -25,16 +25,16 @@ public class Position {
     }
 
     public void up(){
-        y--;
-    }
-    public void down(){
-        y++;
-    }
-    public void left(){
         x--;
     }
-    public void right(){
+    public void down(){
         x++;
+    }
+    public void left(){
+        y--;
+    }
+    public void right(){
+        y++;
     }
 
     public void deplacement(Direction d) {

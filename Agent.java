@@ -24,7 +24,7 @@ public class Agent extends Thread {
     }
 
     private boolean moveUp() {
-        if (current.Y() > 0) {
+        if (current.X() > 0) {
             Position p = current.clone();
             current.up();
             grille.move(p, current);
@@ -34,7 +34,7 @@ public class Agent extends Thread {
     }
 
     private boolean moveDown() {
-        if (current.Y() < grille.getSizeY() - 1) {
+        if (current.X() < grille.getSizeX() - 1) {
             Position p = current.clone();
             current.down();
             grille.move(p, current);
@@ -44,7 +44,7 @@ public class Agent extends Thread {
     }
 
     private boolean moveLeft() {
-        if (current.X() > 0) {
+        if (current.Y() > 0) {
             Position p = current.clone();
             current.left();
             grille.move(p, current);
@@ -54,7 +54,7 @@ public class Agent extends Thread {
     }
 
     private boolean moveRight() {
-        if (current.X() < grille.getSizeX() - 1) {
+        if (current.Y() < grille.getSizeY() - 1) {
             Position p = current.clone();
             current.right();
             grille.move(p, current);
@@ -118,13 +118,15 @@ public class Agent extends Thread {
 
     private Direction getDir() {
         Direction d = null;
-        if (current.Y() < target.Y()) {
+        //On vérifie NORD/SUD
+        if (current.X() < target.X()) {
             d = Direction.SOUTH;
-        } else if (current.Y() > target.Y()) {
+        } else if (current.X() > target.X()) {
             d = Direction.NORTH;
         }
 
-        if (current.X() < target.X()) {
+        //Si j'ai (en plus) un objectif WEST/EAST
+        if (current.Y() < target.Y()) { // EAST
             if (d == Direction.NORTH) {
                 d = Direction.NE;
             } else if (d == Direction.SOUTH) {
@@ -132,7 +134,7 @@ public class Agent extends Thread {
             } else {
                 d = Direction.EAST;
             }
-        } else if (current.X() > target.X()) {
+        } else if (current.Y() > target.Y()) { //WEST
             if (d == Direction.NORTH) {
                 d = Direction.NW;
             } else if (d == Direction.SOUTH) {
@@ -220,6 +222,7 @@ public class Agent extends Thread {
     @Override
     public void run() {
         moveMsg = null;
+        int tmp = 0;
         while (!grille.isFinished() && !grille.isEdgeCorrect(target)) {
             Direction d = getDir();
             Position postmp;
@@ -257,8 +260,11 @@ public class Agent extends Thread {
                 } else {
                     //Si j'ai un déplacement à effectuer en mémoire, je le fais si possible.
                     if (nextMove != null) {
-                        if (gestion_move(nextMove)) {
+                        if (gestion_move(nextMove) || !grille.isInTab(current,nextMove)) {
                             nextMove = null;
+                        } else {
+                            // tmp++;
+                            // System.out.println(id + " " +tmp);
                         }
                     } else { // Sinon je fais le miens
                         gestion_move(d);
