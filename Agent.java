@@ -268,7 +268,7 @@ public class Agent extends Thread {
                                 Direction[] directions={Direction.NORTH,Direction.SOUTH,Direction.WEST,Direction.EAST};
                                 nextMove = directions[PRNG.nextInt(directions.length)];
                                 tmp = 0;
-                                System.out.println("Changement " + id);
+                                //System.out.println("Changement " + id);
                             }
                         }
                     } else { // Sinon je fais le miens
