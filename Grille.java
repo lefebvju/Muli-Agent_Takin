@@ -294,60 +294,53 @@ public class Grille extends Observable {
     }
 
     public void init(int nbAgent) {
-        //if(!run) {
-            finished = false;
-            nbDep = 0;
-            System.out.println("RUN ====== " + run + "   FINISH ===== " + finished);
+        finished = false;
+        nbDep = 0;
+        System.out.println("RUN ====== " + run + "   FINISH ===== " + finished);
 
-            do {
-                for (int i = 0; i < sizeX; i++) {
-                    for (int j = 0; j < sizeY; j++) {
-                        tabCurrent[i][j] = -1;
-                        tabTarget[i][j] = -1;
-                    }
+        do {
+            for (int i = 0; i < sizeX; i++) {
+                for (int j = 0; j < sizeY; j++) {
+                    tabCurrent[i][j] = -1;
+                    tabTarget[i][j] = -1;
                 }
+            }
 
-                // Gestion des agents
-                Messagerie m = new Messagerie();
-                tabAgent = new Agent[nbAgent];
+            // Gestion des agents
+            Messagerie m = new Messagerie();
+            tabAgent = new Agent[nbAgent];
 
-                // Tirage position target
-                int nbTrou = getSizeX() * getSizeY() - nbAgent;
-                Random rand = new Random();
-                int ind;
-                ArrayList<Integer> targetVal = new ArrayList<Integer>();
-                for (int i = 0; i < nbAgent; i++) {
-                    targetVal.add(i);
-                }
-                for (int i = 0; i < nbTrou; i++) {
-                    ind = rand.nextInt(targetVal.size() + 1);
-                    targetVal.add(ind, -1);
-                }
-                System.out.println(targetVal);
+            // Tirage position target
+            int nbTrou = getSizeX() * getSizeY() - nbAgent;
+            Random rand = new Random();
+            int ind;
+            ArrayList<Integer> targetVal = new ArrayList<Integer>();
+            for (int i = 0; i < nbAgent; i++) {
+                targetVal.add(i);
+            }
+            for (int i = 0; i < nbTrou; i++) {
+                ind = rand.nextInt(targetVal.size() + 1);
+                targetVal.add(ind, -1);
+            }
 
 
-                for (int i = 0; i < nbAgent; i++) {
-                    Position p1;
-                    do {
-                        p1 = Position.random(getSizeX(), getSizeY());
-                    } while (!isFree(p1));
-                    Position p2;
-                    int ind1D;
-                    //do {
-                    //p2 = Position.random(getSizeX(), getSizeY());
-                    ind1D = targetVal.indexOf(i);
-                    p2 = new Position(ind1D / sizeY, ind1D % sizeY);
-                    //System.out.println("i= " + i +" " + p2);
-                    //}while(!isFreeTarget(p2));
-                    tabAgent[i] = new Agent(p1, p2, this, i, m);
+            for (int i = 0; i < nbAgent; i++) {
+                Position p1;
+                do {
+                    p1 = Position.random(getSizeX(), getSizeY());
+                } while (!isFree(p1));
+                Position p2;
+                int ind1D;
+                ind1D = targetVal.indexOf(i);
+                p2 = new Position(ind1D / sizeY, ind1D % sizeY);
+                tabAgent[i] = new Agent(p1, p2, this, i, m);
 
-                }
-            }while(!Solveur.soluble(tabCurrent,tabTarget,sizeX,sizeY));
+            }
+        }while(!Solveur.soluble(tabCurrent,tabTarget,sizeX,sizeY));
 
-            System.out.println(toString());
-            setChanged();
-            notifyObservers();
-        //}
+        System.out.println(toString());
+        setChanged();
+        notifyObservers();
     }
 
     public void start(int nbAgent) {

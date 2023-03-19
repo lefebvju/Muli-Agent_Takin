@@ -222,10 +222,7 @@ public class Agent extends Thread {
     public void run() {
         int tmp = 0;
         while (!grille.isFinished() && !grille.isEdgeCorrect(target)) {
-            Direction d = getDir();
-            Position postmp;
-
-            
+            Direction d = getDir();            
 
             MessageDemande m = (MessageDemande) boite.getFirstMessage(id);
             if (m != null) {
@@ -261,14 +258,12 @@ public class Agent extends Thread {
                             Direction[] directions={Direction.NORTH,Direction.SOUTH,Direction.WEST,Direction.EAST};
                             nextMove = directions[PRNG.nextInt(directions.length)];
                             tmp = 0;
-                            //System.out.println("Changement " + id);
                         }
                     }
                 } else { // Sinon je fais le miens
                     gestion_move(d);
                 }
             }
-            //System.out.println(grille.toString());
         }
         System.out.println("end of thread " + id);
     }
